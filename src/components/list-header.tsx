@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { StyleSheet, Text, View, Image, Pressable, TouchableOpacity, FlatList } from "react-native";
 import { Link } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
+import { CATEGORIES } from "../../assets/categories";
 
 export const ListHeader = () => {
   return (
@@ -15,26 +16,55 @@ export const ListHeader = () => {
             <Text style={styles.avatarText}>Hi, Karthik</Text>
           </View>
         </View>
-        <Link href="/cart" style={styles.cartContainer} asChild>
-          <Pressable>
-            {({ pressed }) => (
-              <View>
-                <FontAwesome 
-                  name="shopping-cart"
-                  size={24}
-                  color= 'gray'
-                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                />
-                <View style={styles.badgeContainer}>
-                  <Text style={styles.badgeText}>{1}</Text>
+        <View style={styles.headerRight}>
+          <Link href="/cart" style={styles.cartContainer} asChild>
+            <Pressable>
+              {({ pressed }) => (
+                <View>
+                  <FontAwesome 
+                    name="shopping-cart"
+                    size={24}
+                    color= 'gray'
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                  <View style={styles.badgeContainer}>
+                    <Text style={styles.badgeText}>{1}</Text>
+                  </View>
                 </View>
-              </View>
-            )}
-          </Pressable>
-        </Link>
+              )}
+            </Pressable>
+          </Link>
+          <TouchableOpacity style={styles.signOutButton}>
+            <FontAwesome name="sign-out" size={24} color="red" />
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.heroContainer}></View>
-      <View style={styles.categoriesContainer}></View>
+      <View style={styles.heroContainer}>
+        <Image
+          source={require("../../assets/images/hero.png")}
+          style={styles.heroImage}
+        />
+      </View>
+      <View style={styles.categoriesContainer}>
+        <Text style={styles.sectionTitle}>Categories</Text>
+        <FlatList
+          data={CATEGORIES}
+          renderItem={({ item }) => (
+            <Link href={`/categories/${item.slug}`} asChild>
+              <Pressable style={styles.category}>
+                <Image
+                  source={{ uri: item.imageUrl }}
+                  style={styles.categoryImage}
+                />
+                <Text style={styles.categoryText}>{item.name}</Text>
+              </Pressable>
+            </Link>
+          )}
+          keyExtractor={(item) => item.name}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
+      </View>
     </View>
   );
 };
