@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import { Redirect, useLocalSearchParams } from 'expo-router'
+import { Redirect, Stack, useLocalSearchParams } from 'expo-router'
 
 import { ORDERS } from '../../../../assets/orders';
 
@@ -11,6 +11,7 @@ const orderDetails = () => {
 
   return (
     <View style={styles.container}>
+      <Stack.Screen options={{title: 'Order Details'}} />
       <Text>orderDetails</Text>
     </View>
   )
